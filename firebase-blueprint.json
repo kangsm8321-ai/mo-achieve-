@@ -1,0 +1,95 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "텔레그램 봇 사용자 정보 및 세션",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "number", "description": "텔레그램 사용자 ID" },
+        "session": { "type": "object", "description": "현재 진행 중인 대화 세션 상태" },
+        "createdAt": { "type": "string", "description": "가입 일시" },
+        "updatedAt": { "type": "string", "description": "최근 활동 일시" }
+      },
+      "required": ["userId"]
+    },
+    "Media": {
+      "title": "Media",
+      "description": "아카이브된 작품 정보",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "number", "description": "소유자 사용자 ID" },
+        "title": { "type": "string", "description": "작품 제목" },
+        "type": { "type": "string", "enum": ["anime", "movie", "drama", "novel"] },
+        "status": { "type": "string", "enum": ["planned", "in_progress", "completed", "dropped", "paused"] },
+        "genres": { "type": "array", "description": "장르 태그 목록" },
+        "rating": { "type": "number", "description": "평점 (0~10)" },
+        "review": { "type": "string", "description": "감상평" },
+        "progress": { "type": "number", "description": "현재 진행도" },
+        "totalProgress": { "type": "number", "description": "총 회차/권수" },
+        "coverUrl": { "type": "string", "description": "표지 이미지 URL" },
+        "externalUrl": { "type": "string", "description": "외부 상세 링크" },
+        "createdAt": { "type": "string", "description": "등록 일시" },
+        "updatedAt": { "type": "string", "description": "수정 일시" },
+        "completedAt": { "type": "string", "description": "완료 일시" }
+      },
+      "required": ["userId", "title", "type", "status"]
+    },
+    "Collection": {
+      "title": "Collection",
+      "description": "사용자 정의 작품 컬렉션",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "number", "description": "소유자 사용자 ID" },
+        "name": { "type": "string", "description": "컬렉션 이름" },
+        "mediaIds": { "type": "array", "description": "포함된 작품 ID 목록" },
+        "createdAt": { "type": "string", "description": "생성 일시" },
+        "updatedAt": { "type": "string", "description": "수정 일시" }
+      },
+      "required": ["userId", "name"]
+    },
+    "ActivityLog": {
+      "title": "ActivityLog",
+      "description": "작품별 활동 로그",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "number", "description": "사용자 ID" },
+        "mediaId": { "type": "string", "description": "작품 ID" },
+        "action": { "type": "string", "description": "수행한 액션" },
+        "detail": { "type": "string", "description": "상세 내용" },
+        "createdAt": { "type": "string", "description": "로그 일시" }
+      },
+      "required": ["userId", "mediaId", "action"]
+    },
+    "ProcessedUpdate": {
+      "title": "ProcessedUpdate",
+      "description": "텔레그램 멱등성 검증용 업데이트 기록",
+      "type": "object",
+      "properties": {
+        "createdAt": { "type": "string", "description": "처리 일시" },
+        "expireAt": { "type": "string", "description": "만료 일시" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "텔레그램 사용자"
+    },
+    "/media/{mediaId}": {
+      "schema": "Media",
+      "description": "아카이브 작품"
+    },
+    "/collections/{collectionId}": {
+      "schema": "Collection",
+      "description": "작품 컬렉션"
+    },
+    "/activity_logs/{logId}": {
+      "schema": "ActivityLog",
+      "description": "활동 로그"
+    },
+    "/processed_updates/{updateId}": {
+      "schema": "ProcessedUpdate",
+      "description": "중복 수신 방지 업데이트 로그"
+    }
+  }
+}

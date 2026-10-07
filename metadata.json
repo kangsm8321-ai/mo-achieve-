@@ -1,0 +1,6 @@
+{
+  "name": "My Media Archive",
+  "description": "텔레그램 봇과 연동되는 개인 미디어 아카이브 및 감상평 도감",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
